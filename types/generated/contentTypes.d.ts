@@ -646,6 +646,52 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginTodoTask extends Schema.CollectionType {
+  collectionName: 'todo_task';
+  info: {
+    tableName: 'task';
+    singularName: 'task';
+    pluralName: 'tasks';
+    displayName: 'Task';
+    description: 'A task in Strapi';
+    kind: 'collectionType';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 40;
+      }>;
+    isDone: Attribute.Boolean & Attribute.DefaultTo<false>;
+    related: Attribute.Relation<'plugin::todo.task', 'morphToOne'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::todo.task',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::todo.task',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginMenusMenu extends Schema.CollectionType {
   collectionName: 'menus';
   info: {
@@ -942,50 +988,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginGraphsBuilderGraph extends Schema.CollectionType {
-  collectionName: 'graphs_builder_graph';
-  info: {
-    name: 'graph';
-    description: '';
-    singularName: 'graph';
-    pluralName: 'graphs';
-    displayName: 'Graph';
-  };
-  options: {
-    draftAndPublish: false;
-    timestamps: true;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: true;
-    };
-    'content-type-builder': {
-      visible: true;
-    };
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required;
-    type: Attribute.Enumeration<['pie', 'bar', 'line', 'dateLine']> &
-      Attribute.Required;
-    collectionX: Attribute.String & Attribute.Required;
-    collectionXAttribute: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::graphs-builder.graph',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::graphs-builder.graph',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1001,13 +1003,13 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::todo.task': PluginTodoTask;
       'plugin::menus.menu': PluginMenusMenu;
       'plugin::menus.menu-item': PluginMenusMenuItem;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::graphs-builder.graph': PluginGraphsBuilderGraph;
     }
   }
 }

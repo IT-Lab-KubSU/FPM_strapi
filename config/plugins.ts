@@ -1,6 +1,10 @@
-import path from "path";
+import {apolloPrometheusPlugin} from "strapi-prometheus";
+
 
 export default () => ({
+  todo: {
+    enabled: true,
+  },
   tinymce: {
     enabled: true,
     resolve: "./src/plugins/strapi-plugin-tinymce",
@@ -28,15 +32,6 @@ export default () => ({
             'forecolor backcolor hr | bold italic underline strikethrough | ' +
             'formatselect | outdent indent | numlist bullist | link image table |  code preview | removeformat help',
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          // plugins:
-          //   "advlist autolink lists link image charmap preview anchor \
-          //   searchreplace visualblocks code fullscreen table emoticons nonbreaking \
-          //   insertdatetime media table code help wordcount",
-          // toolbar:
-          //   "undo redo | styles | bold italic forecolor backcolor | \
-          //   alignleft aligncenter alignright alignjustify | \
-          //   media table emoticons visualblocks code|\
-          //   nonbreaking bullist numlist outdent indent | removeformat | help",
         },
       },
     },
@@ -54,11 +49,30 @@ export default () => ({
       depthLimit: 7,
       amountLimit: 100,
       apolloServer: {
-        tracing: false,
+        plugins: [apolloPrometheusPlugin],
+        tracing: true,
       },
     },
   },
   "apollo-sandbox": {
     enabled: process.env.NODE_ENV !== "production",
   },
+  'strapi-prometheus': {
+    enabled: true,
+    config: {
+      prefix: '',
+      fullURL: false,
+      includeQuery: true,
+      enabledMetrics: {
+        koa: true,
+        process: true,
+        http: true,
+        apollo: true,
+      },
+      interval: 10_000,
+      customLabels: {
+        name: "strapi-prometheus",
+      },
+    }
+  }
 });
