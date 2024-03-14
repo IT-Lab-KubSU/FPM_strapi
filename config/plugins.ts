@@ -1,7 +1,7 @@
 import {apolloPrometheusPlugin} from "strapi-prometheus";
 
 
-export default () => ({
+export default ({env}) => ({
   todo: {
     enabled: true,
   },
@@ -51,6 +51,26 @@ export default () => ({
       apolloServer: {
         plugins: [apolloPrometheusPlugin],
         tracing: true,
+      },
+    },
+  },
+  upload: {
+    config: {
+      provider: 'aws-s3',
+      providerOptions: {
+        baseUrl: "http://" + env('MINIO_ENDPOINT') + "/uploads",
+        s3Options: {
+          credentials: {
+            accessKeyId: env('MINIO_ROOT_USER'),
+            secretAccessKey: env('MINIO_ROOT_PASSWORD'),
+          },
+          endpoint: "http://" + env('MINIO_ENDPOINT'),
+          region: env('MINIO_REGION'),
+          forcePathStyle: true,
+          params: {
+            Bucket: env('MINIO_BUCKET'),
+          },
+        }
       },
     },
   },
