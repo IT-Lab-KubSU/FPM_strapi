@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 1m
+scrape_configs:
+  - job_name: "api"
+    metrics_path: "/api/metrics"
+    scheme: "http"
+    authorization:
+      credentials: "f51fdf4a30fda027971cbde1d59f0a3608f47a080a09a20a20c9f1dba1dd6281ccad5b221e578f2dc8a7fb5c0da7b8d720cbb1c7b76a88360c1e02a7ef47f729b9002e7db1e377861086a14f01965bda3488fa552a5ff9949e0a77455b576fa1b3d9fa6e82dacd26c488727305b33c7a9e1ccea53ed494c41acc7fafb7e9f788"
+    static_configs:
+      - targets: ["localhost:1337"]
