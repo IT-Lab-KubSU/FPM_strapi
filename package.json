@@ -10,7 +10,6 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@creazy231/strapi-plugin-apollo-sandbox": "^0.0.13",
     "@offset-dev/strapi-calendar": "^0.1.1",
     "@strapi/helper-plugin": "^4.20.3",
     "@strapi/plugin-cloud": "4.20.1",
@@ -23,6 +22,7 @@
     "@strapi/strapi": "4.20.1",
     "@tinymce/tinymce-react": "^4.3.2",
     "better-sqlite3": "8.6.0",
+    "pg": "^8.11.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",

@@ -74,9 +74,6 @@ export default ({env}) => ({
       },
     },
   },
-  "apollo-sandbox": {
-    enabled: process.env.NODE_ENV !== "production",
-  },
   'strapi-prometheus': {
     enabled: true,
     config: {
